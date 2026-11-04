@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Oversight Explainer: slides</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+html,body{margin:0;height:100%;background:#0b1514;overflow:hidden}
+.slide{position:fixed;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+.slide[hidden]{display:none}
+.slide>section{position:relative;width:1920px;height:1080px;box-sizing:border-box;overflow:hidden}
+.slide *{margin:0;box-sizing:border-box}
+.slide ul,.slide ol{padding-left:1.2em}
+.slide a{color:inherit}
+.slide table{border-collapse:separate;border-spacing:0;overflow:hidden;width:100%}
+.slide th,.slide td{text-align:left;padding:.35em .6em;border-top:1px solid #dde1de;vertical-align:top}
+.slide tr:first-child th{border-top:none;font-weight:600;color:#5f6865}
+.slide aside{display:none}
+.slide.notes aside{display:block;position:absolute;left:0;right:0;bottom:0;background:#000c;color:#fff;font:26px/1.4 system-ui,sans-serif;padding:24px 128px}
+#count{position:fixed;right:16px;bottom:12px;font:14px system-ui,sans-serif;color:#9db8b5;z-index:5}
+</style>
+</head>
+<body>
+<div class="slide" hidden><section id="cover" data-transition="fade" style="background:#102624;color:#EEF1EF;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:space-between">
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:28px;color:#6FD0D4;letter-spacing:2px;text-transform:uppercase">London Claude Hackathon · GRC engineering</p>
+<div style="display:flex;flex-direction:column;gap:40px">
+<h1 style="font-family:'IBM Plex Sans Condensed', Arial, sans-serif;font-size:120px;font-weight:600;line-height:1.05;color:#EEF1EF">Agent Oversight Explainer</h1>
+<p style="font-size:44px;line-height:1.3;color:#BFD8D5;width:1320px">Human oversight of AI agents at machine speed: see what they’re doing, ask why, and step in.</p>
+</div>
+<p style="font-size:28px;color:#9DB8B5">Clickable mockup · built on the team’s Agent Oversight Dashboard spec</p>
+<aside>We built on the team's Agent Oversight Dashboard spec and added one thing: the ability to ask why about anything an agent does. Everything you'll see is a clickable mockup with a sample session; the controls are simulated.</aside>
+</section>
+</div><div class="slide" hidden><section id="problem" data-transition="fade" style="background:#F3F4F2;color:#1A1D1C;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<h2 style="font-family:'IBM Plex Sans Condensed', Arial, sans-serif;font-size:72px;font-weight:600;line-height:1.1;color:#1A1D1C">Agents work faster than people can follow</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FBFBF8;padding:40px;border:1px solid #DDE1DE;border-radius:16px">
+<h3 style="font-size:44px;font-weight:600;color:#0F6B73">Out of sight</h3>
+<p style="font-size:32px;line-height:1.4;color:#4A5452">A helper agent does work you never see in the terminal.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FBFBF8;padding:40px;border:1px solid #DDE1DE;border-radius:16px">
+<h3 style="font-size:44px;font-weight:600;color:#0F6B73">Going in circles</h3>
+<p style="font-size:32px;line-height:1.4;color:#4A5452">It fixes its own fix, again and again, on one failing test.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FBFBF8;padding:40px;border:1px solid #DDE1DE;border-radius:16px">
+<h3 style="font-size:44px;font-weight:600;color:#0F6B73">Gone quiet</h3>
+<p style="font-size:32px;line-height:1.4;color:#4A5452">It stalls, and nobody notices for ten minutes.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FBFBF8;padding:40px;border:1px solid #DDE1DE;border-radius:16px">
+<h3 style="font-size:44px;font-weight:600;color:#0F6B73">Off script</h3>
+<p style="font-size:32px;line-height:1.4;color:#4A5452">It installs an unvetted library or edits code it shouldn’t touch.</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5F6865">Source: team spec, docs/specs/2026-11-04-agent-oversight-dashboard-design.md</p>
+<aside>These four failure modes come straight from the team's spec. By the time you spot them in a scrolling terminal, the damage is done. The goal is to catch them while you can still steer.</aside>
+</section>
+</div><div class="slide" hidden><section id="brief" data-transition="fade" style="background:#F3F4F2;color:#1A1D1C;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:56px">
+<h2 style="font-family:'IBM Plex Sans Condensed', Arial, sans-serif;font-size:72px;font-weight:600;line-height:1.1;color:#1A1D1C">The brief: six things the dashboard must do</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px">
+<div style="display:flex;flex-direction:column;gap:10px;background:#FBFBF8;padding:36px;border:1px solid #DDE1DE;border-radius:16px">
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:32px;color:#0F6B73">01</p>
+<h3 style="font-size:44px;font-weight:600">Plan view</h3>
+<p style="font-size:32px;line-height:1.35;color:#4A5452">What’s planned, done and in progress.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#FBFBF8;padding:36px;border:1px solid #DDE1DE;border-radius:16px">
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:32px;color:#0F6B73">02</p>
+<h3 style="font-size:44px;font-weight:600">Live activity</h3>
+<p style="font-size:32px;line-height:1.35;color:#4A5452">Every tool call, file and helper, as it happens.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#FBFBF8;padding:36px;border:1px solid #DDE1DE;border-radius:16px">
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:32px;color:#0F6B73">03</p>
+<h3 style="font-size:44px;font-weight:600">Zoom levels</h3>
+<p style="font-size:32px;line-height:1.35;color:#4A5452">Exec to L4: from “on track?” to raw evidence.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#FBFBF8;padding:36px;border:1px solid #DDE1DE;border-radius:16px">
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:32px;color:#0F6B73">04</p>
+<h3 style="font-size:44px;font-weight:600">Alerts</h3>
+<p style="font-size:32px;line-height:1.35;color:#4A5452">Loops, stalls, off-scope and risky actions.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#FBFBF8;padding:36px;border:1px solid #DDE1DE;border-radius:16px">
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:32px;color:#0F6B73">05</p>
+<h3 style="font-size:44px;font-weight:600">Intervene</h3>
+<p style="font-size:32px;line-height:1.35;color:#4A5452">Steer, pause or stop the agent from the screen.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#FBFBF8;padding:36px;border:1px solid #DDE1DE;border-radius:16px">
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:32px;color:#0F6B73">06</p>
+<h3 style="font-size:44px;font-weight:600">Startup interview</h3>
+<p style="font-size:32px;line-height:1.35;color:#4A5452">Three questions set your default view.</p>
+</div>
+</div>
+<aside>These are the six goals in the spec. One person, local only, Claude Code only. Agent output is always treated as data, never as instructions to the dashboard.</aside>
+</section>
+</div><div class="slide" hidden><section id="how" data-section="How the dashboard works" data-transition="fade" style="background:#FBFBF8;color:#1A1D1C;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:56px">
+<h2 style="font-family:'IBM Plex Sans Condensed', Arial, sans-serif;font-size:72px;font-weight:600;line-height:1.1;color:#1A1D1C">How it works</h2>
+<div style="display:flex;align-items:center;gap:20px">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#F3F4F2;padding:32px;border:2px solid #DDE1DE;border-radius:16px">
+<h3 style="font-size:44px;font-weight:600;line-height:1.1">Claude Code hooks</h3>
+<p style="font-size:32px;line-height:1.35;color:#4A5452">Fire on every tool call and helper start or stop.</p>
+</div>
+<p style="width:64px;font-size:64px;line-height:1;text-align:center;color:#0F6B73">→</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#F3F4F2;padding:32px;border:2px solid #DDE1DE;border-radius:16px">
+<h3 style="font-size:44px;font-weight:600;line-height:1.1">Local server</h3>
+<p style="font-size:32px;line-height:1.35;color:#4A5452">Stores events. Listens on this machine only.</p>
+</div>
+<p style="width:64px;font-size:64px;line-height:1;text-align:center;color:#0F6B73">→</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#F3F4F2;padding:32px;border:2px solid #DDE1DE;border-radius:16px">
+<h3 style="font-size:44px;font-weight:600;line-height:1.1">Plan and detectors</h3>
+<p style="font-size:32px;line-height:1.35;color:#4A5452">Build the plan, the agent tree and the alerts.</p>
+</div>
+<p style="width:64px;font-size:64px;line-height:1;text-align:center;color:#0F6B73">→</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#E3F1F1;padding:32px;border:2px solid #0F6B73;border-radius:16px">
+<h3 style="font-size:44px;font-weight:600;line-height:1.1;color:#0F6B73">Dashboard</h3>
+<p style="font-size:32px;line-height:1.35;color:#1A1D1C">Plan map, feed, alerts, zoom and controls.</p>
+</div>
+</div>
+<div style="display:flex;gap:28px">
+<div style="flex:1;display:flex;flex-direction:column;gap:10px;padding:32px;border:2px dashed #0F6B73;border-radius:16px">
+<h3 style="font-size:32px;font-weight:600;color:#0F6B73">Steer and Stop go back through the hooks</h3>
+<p style="font-size:24px;line-height:1.4;color:#4A5452">Delivered at the agent’s next tool call. Kill ends the process when it can’t hear you.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:10px;padding:32px;border:2px dashed #0F6B73;border-radius:16px">
+<h3 style="font-size:32px;font-weight:600;color:#0F6B73">Ask why reads, never acts</h3>
+<p style="font-size:24px;line-height:1.4;color:#4A5452">A read-only Claude agent answers from the events and session log, with citations.</p>
+</div>
+</div>
+<aside>Hooks are Claude Code's built-in extension points. They send each event to a local server, which works out the plan and raises alerts. The same hooks carry steering back. Our explainer only reads, so it can't change anything the agent is doing.</aside>
+</section>
+</div><div class="slide" hidden><section id="zoom" data-transition="fade" style="background:#F3F4F2;color:#1A1D1C;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<h2 style="font-family:'IBM Plex Sans Condensed', Arial, sans-serif;font-size:72px;font-weight:600;line-height:1.1;color:#1A1D1C">One project, five zoom levels</h2>
+<table style="font-family:'IBM Plex Sans', Arial, sans-serif;font-size:32px;color:#1A1D1C;background:#FBFBF8;border:1px solid #DDE1DE;border-radius:16px">
+<tr><th style="width:12%">Level</th><th style="width:38%">Answers the question</th><th style="width:50%">What you see</th></tr>
+<tr><td><b>Exec</b></td><td>Is it on track?</td><td>Plan goals, % done, plain-English updates</td></tr>
+<tr><td><b>L1</b></td><td>What is it doing, and why?</td><td>Plan steps, helpers, short summaries</td></tr>
+<tr><td><b>L2</b></td><td>Which parts are changing?</td><td>Folders, grouped actions, test results</td></tr>
+<tr><td><b>L3</b></td><td>Exactly which operations?</td><td>Every tool call, file and command</td></tr>
+<tr><td><b>L4</b></td><td>Show me the evidence</td><td>Raw events and file diffs</td></tr>
+</table>
+<p style="font-size:32px;line-height:1.4;color:#4A5452">Alerts show at every level. The startup interview picks your default level.</p>
+<aside>The same data at different depths. An executive sees one sentence and a red, amber or green status; an engineer drops to L3 or L4 to see the exact commands. In the mockup, keys 1 to 5 switch levels.</aside>
+</section>
+</div><div class="slide" hidden><section id="alerts" data-transition="fade" style="background:#FBFBF8;color:#1A1D1C;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<h2 style="font-family:'IBM Plex Sans Condensed', Arial, sans-serif;font-size:72px;font-weight:600;line-height:1.1;color:#1A1D1C">Spot trouble, then step in</h2>
+<div style="display:flex;gap:40px">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#F3F4F2;padding:40px;border-radius:16px">
+<h3 style="font-size:44px;font-weight:600;color:#A86200">Alerts it raises</h3>
+<div data-text style="font-size:32px;line-height:1.45;color:#1A1D1C">
+<p><b>Edit loop:</b> same file changed 5 times in 10 min</p>
+<p><b>Test-fail loop:</b> same test fails 3 times running</p>
+<p><b>Stall:</b> a helper goes quiet for 5 min</p>
+<p><b>Unvetted library:</b> install not on the approved list</p>
+<p><b>Hand-hacking:</b> edits inside installed libraries</p>
+<p><b>Off-scope:</b> work that matches no plan step</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#E3F1F1;padding:40px;border-radius:16px">
+<h3 style="font-size:44px;font-weight:600;color:#0F6B73">Ways to step in</h3>
+<div data-text style="font-size:32px;line-height:1.45;color:#1A1D1C">
+<p><b>Steer:</b> send guidance at the next tool call</p>
+<p><b>Pause</b> or <b>Stop:</b> one helper or the whole session</p>
+<p><b>Hold:</b> a risky command waits for Approve or Block</p>
+<p><b>Kill:</b> offered when a stalled agent can’t hear you</p>
+</div>
+</div>
+</div>
+<aside>Detector thresholds are the spec's proposed defaults and are configurable. Every alert links to the events that triggered it, and you can acknowledge, dismiss, or stop a type of alert from showing again. Hold mode is the spec's pre-emptive option: the dashboard blocks the call until you decide.</aside>
+</section>
+</div><div class="slide" hidden><section id="askwhy" data-section="Our addition: ask why" data-transition="fade" style="background:#102624;color:#EEF1EF;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:16px">
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:28px;color:#6FD0D4;letter-spacing:2px;text-transform:uppercase">Our addition</p>
+<h2 style="font-family:'IBM Plex Sans Condensed', Arial, sans-serif;font-size:72px;font-weight:600;line-height:1.1;color:#EEF1EF">Ask why about anything on the screen</h2>
+</div>
+<div style="display:flex;gap:28px">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#18332F;padding:36px;border-radius:16px">
+<h3 style="font-size:44px;font-weight:600;color:#6FD0D4">Cites its evidence</h3>
+<p style="font-size:32px;line-height:1.35;color:#BFD8D5">Every answer links to the events it used.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#18332F;padding:36px;border-radius:16px">
+<h3 style="font-size:44px;font-weight:600;color:#6FD0D4">Speaks your level</h3>
+<p style="font-size:32px;line-height:1.35;color:#BFD8D5">One sentence at Exec; tool calls and diffs at L3.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#18332F;padding:36px;border-radius:16px">
+<h3 style="font-size:44px;font-weight:600;color:#6FD0D4">Admits gaps</h3>
+<p style="font-size:32px;line-height:1.35;color:#BFD8D5">Says “not in the session log” instead of guessing.</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;border-left:6px solid #F0B450;padding:8px 0 8px 32px">
+<p style="font-size:32px;color:#EEF1EF"><b>“Why did it update the Linear ticket?”</b></p>
+<p style="font-size:32px;line-height:1.4;color:#BFD8D5">Not in the session log. You didn’t ask for it, and the agent didn’t say why. Evidence: #1, #2, #27.</p>
+</div>
+<aside>This is what the spec doesn't have yet. Click any box, event or alert and ask why it's there or what it does. The key design rule: the explainer only uses what the agent actually did or said, and when there's no reason in the log it says so. In the mockup the answers are hand-written samples; in the build a read-only Claude agent writes them.</aside>
+</section>
+</div><div class="slide" hidden><section id="demo" data-section="Demo, live link and next steps" data-transition="fade" style="background:#F3F4F2;color:#1A1D1C;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<h2 style="font-family:'IBM Plex Sans Condensed', Arial, sans-serif;font-size:72px;font-weight:600;line-height:1.1;color:#1A1D1C">What the demo shows, in three minutes</h2>
+<table style="font-family:'IBM Plex Sans', Arial, sans-serif;font-size:32px;color:#1A1D1C;background:#FBFBF8;border:1px solid #DDE1DE;border-radius:16px">
+<tr><th style="width:8%">Step</th><th style="width:46%">On screen</th><th style="width:46%">What to point out</th></tr>
+<tr><td>1</td><td>A test keeps failing; loop alerts fire</td><td>Ask “Why is it looping?” and get cited steps</td></tr>
+<tr><td>2</td><td>The agent patches an installed library</td><td>Critical alert, with the diff at L3</td></tr>
+<tr><td>3</td><td>It tries to run a downloaded script</td><td>Held until you click Block</td></tr>
+<tr><td>4</td><td>A helper goes quiet</td><td>Stop can’t reach it, so Kill appears</td></tr>
+<tr><td>5</td><td>Switch Exec to L4</td><td>Same session, five depths</td></tr>
+<tr><td>6</td><td>Click “What happened since I last looked?”</td><td>A cited catch-up summary</td></tr>
+</table>
+<aside>The sample session plays live and pauses at the held command until you decide, so Block it on stage. If anything goes wrong, Replay sample in the demo controls restarts it. Keys: 1 to 5 change zoom, t switches to the timeline, c catches you up.</aside>
+</section>
+</div><div class="slide" hidden><section id="link" data-transition="fade" style="background:#0F6B73;color:#F3F4F2;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:space-between">
+<div style="display:flex;flex-direction:column;gap:24px">
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:28px;color:#CDEDEE;letter-spacing:2px;text-transform:uppercase">Live mockup</p>
+<h2 style="font-family:'IBM Plex Sans Condensed', Arial, sans-serif;font-size:120px;font-weight:600;line-height:1.05;color:#F3F4F2">Open it and click around</h2>
+</div>
+<div style="display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:8px;background:#F3F4F2;padding:36px 44px;border-radius:16px">
+<p style="font-size:24px;color:#4A5452">In the browser (Claude artifact)</p>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:44px;color:#0F6B73"><a href="https://claude.ai/artifact/TTZ9HdXR2YdVfFW6yHkzwd">claude.ai/artifact/TTZ9HdXR2YdVfFW6yHkzwd</a></p>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;background:#E3F1F1;padding:36px 44px;border-radius:16px">
+<p style="font-size:24px;color:#4A5452">In the team repo: download the file and open it in any browser</p>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:32px;color:#0F6B73"><a href="https://github.com/alezza/london-claude-hackathon/blob/main/docs/mockups/agent-oversight-explainer.html">github.com/alezza/london-claude-hackathon</a></p>
+<p style="font-family:'IBM Plex Mono', 'Courier New', monospace;font-size:28px;color:#1A1D1C">docs/mockups/agent-oversight-explainer.html</p>
+</div>
+</div>
+<p style="font-size:28px;color:#CDEDEE">Sample session · controls simulated · answers hand-written to show the design</p>
+<aside>Both links open the same mockup. The Claude artifact link only works for people it has been shared with, so share it from the artifact's Share menu before the presentation. The GitHub copy is public: GitHub shows the code, so download it and open it in a browser.</aside>
+</section>
+</div><div class="slide" hidden><section id="next" data-transition="fade" style="background:#FBFBF8;color:#1A1D1C;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:56px">
+<h2 style="font-family:'IBM Plex Sans Condensed', Arial, sans-serif;font-size:72px;font-weight:600;line-height:1.1;color:#1A1D1C">Where it stands</h2>
+<div style="display:flex;gap:40px">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#F3F4F2;padding:40px;border-radius:16px">
+<h3 style="font-size:44px;font-weight:600;color:#1F7A45">Done</h3>
+<div data-text style="font-size:32px;line-height:1.45;color:#1A1D1C">
+<p>Team spec: 12 component specs</p>
+<p>Clickable mockup of every spec element</p>
+<p>Ask-why explainer design and sample answers</p>
+<p>Replay of recorded hook sessions</p>
+<p>27 automated browser checks</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#E3F1F1;padding:40px;border-radius:16px">
+<h3 style="font-size:44px;font-weight:600;color:#0F6B73">Next</h3>
+<div data-text style="font-size:32px;line-height:1.45;color:#1A1D1C">
+<p>Capture real events with hooks and a local server</p>
+<p>Wire the explainer to a read-only Claude agent</p>
+<p>Choose the main layout (open question in the spec)</p>
+<p>Join up with the team’s live-dashboard mod</p>
+</div>
+</div>
+</div>
+<aside>Be clear that the mockup runs on sample data and the controls are simulated. The real build follows the spec: hooks feed a local server, and the explainer becomes a read-only Claude agent that must cite the events it uses. Another teammate has a live-dashboard prototype built as a Claude Code mod on its own branch, which is a natural place to join up.</aside>
+</section>
+</div>
+<div id="count"></div>
+<script>
+const S=[...document.querySelectorAll('.slide')];let i=0,notes=false;
+function fit(){const k=Math.min(innerWidth/1920,innerHeight/1080),x=(innerWidth-1920*k)/2,y=(innerHeight-1080*k)/2;S.forEach(s=>s.style.transform=`translate(${x}px,${y}px) scale(${k})`)}
+function show(n){i=Math.max(0,Math.min(S.length-1,n));S.forEach((s,k)=>{s.hidden=k!==i;s.classList.toggle('notes',notes)});document.getElementById('count').textContent=`${i+1} / ${S.length} · arrows to move · N for notes`;history.replaceState(null,'','#'+(i+1))}
+addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();show(i+1)}else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();show(i-1)}else if(e.key==='Home')show(0);else if(e.key==='End')show(S.length-1);else if(e.key==='n'||e.key==='N'){notes=!notes;show(i)}});
+addEventListener('click',e=>{if(e.target.closest('a'))return;show(e.clientX>innerWidth/3?i+1:i-1)});
+addEventListener('resize',fit);fit();show((parseInt(location.hash.slice(1))||1)-1);
+</script>
+</body>
+</html>
