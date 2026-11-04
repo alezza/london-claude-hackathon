@@ -1,0 +1,70 @@
+<h2>Which main screen feels right?</h2>
+<p class="subtitle">Three rough layouts for the same information: plan, progress, live activity, alerts, zoom, and stop/steer. Click the one closest to what you imagine (or tell me what to mix).</p>
+
+<style>
+  .wf{font:12px/1.4 system-ui,sans-serif;display:flex;flex-direction:column;gap:6px}
+  .wf .bar{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;border:1px solid #8884;border-radius:6px}
+  .wf .zoom span{padding:2px 6px;border:1px solid #8886;border-radius:4px;margin-left:2px}
+  .wf .zoom span.on{background:#3b82f6;color:#fff;border-color:#3b82f6}
+  .wf .box{border:1px solid #8884;border-radius:6px;padding:6px}
+  .wf .t{font-weight:600;font-size:11px;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+  .wf .node{display:inline-block;padding:3px 7px;border-radius:4px;margin:2px;font-size:11px}
+  .done{background:#16a34a33;border:1px solid #16a34a}
+  .run{background:#3b82f633;border:1px solid #3b82f6}
+  .todo{background:#8882;border:1px dashed #888}
+  .warn{background:#f59e0b33;border:1px solid #f59e0b}
+  .bad{background:#ef444433;border:1px solid #ef4444}
+  .wf .feed div{font-family:ui-monospace,monospace;font-size:10.5px;padding:1px 0}
+  .wf .btns button{font-size:11px;padding:3px 8px;margin-left:4px;border-radius:4px;border:1px solid #888;background:transparent;color:inherit}
+  .wf .btns .stop{border-color:#ef4444;color:#ef4444}
+  .row{display:flex;gap:6px}
+</style>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="wf">
+      <div class="bar"><b>Project: auth-service</b><span class="zoom">Zoom <span class="on">Exec</span><span>L1</span><span>L2</span><span>L3</span><span>L4</span></span></div>
+      <div class="box"><div class="t">Plan map — progress</div>
+        <span class="node done">Design ✓</span>→<span class="node done">DB schema ✓</span>→<span class="node run">API endpoints ●</span>→<span class="node todo">Tests</span>→<span class="node todo">Deploy</span>
+        <div style="margin-top:4px"><span class="node warn">⚠ off-plan: patching vendored lib</span></div>
+      </div>
+      <div class="row">
+        <div class="box feed" style="flex:2"><div class="t">Live activity</div>
+          <div>12:04:11 edit src/api/login.ts</div><div>12:04:13 run npm test</div><div>12:04:20 subagent#2 read node_modules/jwt/…</div></div>
+        <div class="box" style="flex:1"><div class="t">Alerts</div>
+          <div class="node warn">Loop? login.ts edited 6×</div><div class="node bad">New dep: jwt-lite (unvetted)</div></div>
+      </div>
+      <div class="bar"><span>Agent: <b>working</b> · 2 subagents</span><span class="btns"><button>Steer…</button><button>Pause</button><button class="stop">Stop</button></span></div>
+    </div></div>
+    <div class="card-body"><h3>A · Plan map first</h3><p>One project at a time. The plan diagram is the hero; live feed and alerts sit underneath.</p></div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="wf">
+      <div class="bar"><b>All sessions (3)</b><span class="zoom">Zoom <span class="on">Exec</span><span>L1</span><span>L2</span><span>L3</span><span>L4</span></span></div>
+      <div class="row">
+        <div class="box" style="flex:1"><div class="t">auth-service</div><span class="node run">API 3/5</span><div class="node warn">⚠ loop?</div><div class="btns"><button>Open</button><button class="stop">Stop</button></div></div>
+        <div class="box" style="flex:1"><div class="t">docs-site</div><span class="node done">Done ✓</span><div class="btns"><button>Open</button></div></div>
+        <div class="box" style="flex:1"><div class="t">etl-job</div><span class="node bad">stalled 9m</span><div class="btns"><button>Open</button><button class="stop">Stop</button></div></div>
+      </div>
+      <div class="box"><div class="t">Combined alerts</div><div class="node bad">etl-job: no activity 9 min</div> <div class="node warn">auth-service: login.ts edited 6×</div></div>
+    </div></div>
+    <div class="card-body"><h3>B · Mission control</h3><p>A wall of tiles, one per running session, worst first. Click a tile to drill into its plan map.</p></div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="wf">
+      <div class="bar"><b>Project: auth-service</b><span class="zoom">Zoom <span>Exec</span><span class="on">L1</span><span>L2</span><span>L3</span><span>L4</span></span></div>
+      <div class="box"><div class="t">Timeline (swimlanes)</div>
+        <div>Main&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="node done">plan</span><span class="node done">schema</span><span class="node run">endpoints ▶</span></div>
+        <div>Sub#1&nbsp;&nbsp;&nbsp;&nbsp;<span class="node done">research libs</span></div>
+        <div>Sub#2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="node bad">fix</span><span class="node bad">fix</span><span class="node bad">fix ▶</span></div>
+      </div>
+      <div class="box feed"><div class="t">Selected: Sub#2 · fix-of-fix chain</div><div>edit login.ts → test fail → edit login.ts → test fail …</div></div>
+      <div class="bar"><span></span><span class="btns"><button>Steer…</button><button class="stop">Stop Sub#2</button></span></div>
+    </div></div>
+    <div class="card-body"><h3>C · Timeline</h3><p>Who did what, when, as lanes per agent and subagent. Makes loops and stalls visible as shapes.</p></div>
+  </div>
+
+</div>
