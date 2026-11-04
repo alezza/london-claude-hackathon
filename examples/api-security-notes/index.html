@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>API Security Notes</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>API Security Notes</h1>
+    <p class="sub">Personal notes on securing APIs</p>
+    <div class="controls">
+      <input id="q" type="search" placeholder="Search notes…" aria-label="Search notes">
+      <div id="cats" class="chips" role="group" aria-label="Filter by category"></div>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+  <section class="coverage" aria-labelledby="cov-h">
+    <h2 id="cov-h">OWASP API Top 10 (2023) coverage <span id="cov-n"></span></h2>
+    <ol id="cov" class="cov"></ol>
+  </section>
+  <p class="count"><span id="count" aria-live="polite"></span> <button id="clear-tag" class="clear" hidden>Clear filter</button></p>
+  <section id="grid" class="grid"></section>
+</main>
+<dialog id="detail" aria-labelledby="d-title">
+  <article>
+    <button class="close" aria-label="Close">×</button>
+    <p class="cat" id="d-cat"></p>
+    <h2 id="d-title"></h2>
+    <div class="tags" id="d-tags"></div>
+    <div id="d-body" class="body"></div>
+    <p class="meta" id="d-meta"></p>
+  </article>
+</dialog>
+<script src="notes.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

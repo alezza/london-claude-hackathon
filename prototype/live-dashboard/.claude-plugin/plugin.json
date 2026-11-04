@@ -1,0 +1,6 @@
+{
+  "name": "live-dashboard",
+  "version": "0.1.0",
+  "description": "Live pane beside the chat: work diagram, agent/sub-agent status, skills, MCP servers and sources as Claude works",
+  "types": "./types/index.d.ts"
+}
