@@ -1,0 +1,1 @@
+{ "name": "observability-pane", "version": "0.1.0", "description": "A live Process Monitor-style pane of what Claude Code and its subagents are doing", "types": "./types/index.d.ts" }
