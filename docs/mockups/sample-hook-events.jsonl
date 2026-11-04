@@ -1,0 +1,20 @@
+{"hook_event_name": "UserPromptSubmit", "prompt": "Fix the login timeout bug", "session_id": "s1", "ts": "2026-11-04T12:00:00Z"}
+{"hook_event_name": "PostToolUse", "tool_name": "TodoWrite", "tool_use_id": "t1", "tool_input": {"todos": [{"content": "Reproduce the bug", "status": "in_progress"}, {"content": "Fix login.ts", "status": "pending"}, {"content": "Run tests", "status": "pending"}]}, "session_id": "s1", "ts": "2026-11-04T12:00:03Z"}
+{"hook_event_name": "SubagentStart", "agent_id": "agent-x1", "agent_type": "Explore", "session_id": "s1", "ts": "2026-11-04T12:00:08Z"}
+{"hook_event_name": "PostToolUse", "agent_id": "agent-x1", "agent_type": "Explore", "tool_name": "Read", "tool_use_id": "t2", "tool_input": {"file_path": "src/api/login.ts"}, "session_id": "s1", "ts": "2026-11-04T12:00:12Z"}
+{"hook_event_name": "SubagentStop", "agent_id": "agent-x1", "agent_type": "Explore", "last_assistant_message": "Timeout is hard-coded to 5s", "session_id": "s1", "ts": "2026-11-04T12:00:20Z"}
+{"hook_event_name": "PostToolUse", "tool_name": "TodoWrite", "tool_use_id": "t3", "tool_input": {"todos": [{"content": "Reproduce the bug", "status": "completed"}, {"content": "Fix login.ts", "status": "in_progress"}, {"content": "Run tests", "status": "pending"}]}, "session_id": "s1", "ts": "2026-11-04T12:00:24Z"}
+{"hook_event_name": "PostToolUse", "tool_name": "Edit", "tool_use_id": "e0", "tool_input": {"file_path": "src/api/login.ts", "old_string": "timeout: 5", "new_string": "timeout: 6"}, "session_id": "s1", "ts": "2026-11-04T12:00:30Z"}
+{"hook_event_name": "PostToolUse", "tool_name": "Bash", "tool_use_id": "b0", "tool_input": {"command": "npm test"}, "tool_response": {"exit_code": 1}, "session_id": "s1", "ts": "2026-11-04T12:00:40Z"}
+{"hook_event_name": "PostToolUse", "tool_name": "Edit", "tool_use_id": "e1", "tool_input": {"file_path": "src/api/login.ts", "old_string": "timeout: 6", "new_string": "timeout: 7"}, "session_id": "s1", "ts": "2026-11-04T12:00:50Z"}
+{"hook_event_name": "PostToolUse", "tool_name": "Bash", "tool_use_id": "b1", "tool_input": {"command": "npm test"}, "tool_response": {"exit_code": 1}, "session_id": "s1", "ts": "2026-11-04T12:01:00Z"}
+{"hook_event_name": "PostToolUse", "tool_name": "Edit", "tool_use_id": "e2", "tool_input": {"file_path": "src/api/login.ts", "old_string": "timeout: 7", "new_string": "timeout: 8"}, "session_id": "s1", "ts": "2026-11-04T12:01:10Z"}
+{"hook_event_name": "PostToolUse", "tool_name": "Bash", "tool_use_id": "b2", "tool_input": {"command": "npm test"}, "tool_response": {"exit_code": 1}, "session_id": "s1", "ts": "2026-11-04T12:01:20Z"}
+{"hook_event_name": "PostToolUse", "tool_name": "Edit", "tool_use_id": "e3", "tool_input": {"file_path": "src/api/login.ts", "old_string": "timeout: 8", "new_string": "timeout: 9"}, "session_id": "s1", "ts": "2026-11-04T12:01:30Z"}
+{"hook_event_name": "PostToolUse", "tool_name": "Bash", "tool_use_id": "b3", "tool_input": {"command": "npm test"}, "tool_response": {"exit_code": 1}, "session_id": "s1", "ts": "2026-11-04T12:01:40Z"}
+{"hook_event_name": "PostToolUse", "tool_name": "Edit", "tool_use_id": "e4", "tool_input": {"file_path": "src/api/login.ts", "old_string": "timeout: 9", "new_string": "timeout: 10"}, "session_id": "s1", "ts": "2026-11-04T12:01:50Z"}
+{"hook_event_name": "PostToolUse", "tool_name": "Bash", "tool_use_id": "b4", "tool_input": {"command": "npm test"}, "tool_response": {"exit_code": 0}, "session_id": "s1", "ts": "2026-11-04T12:02:00Z"}
+{"hook_event_name": "PreToolUse", "tool_name": "Bash", "tool_use_id": "i1", "tool_input": {"command": "npm install jwt-lite"}, "session_id": "s1", "ts": "2026-11-04T12:02:20Z"}
+{"hook_event_name": "PostToolUse", "tool_name": "Write", "tool_use_id": "w9", "tool_input": {"file_path": "node_modules/jwt-lite/index.js"}, "session_id": "s1", "ts": "2026-11-04T12:02:30Z"}
+{"hook_event_name": "PostToolUse", "tool_name": "mcp__github__create_pull_request", "tool_use_id": "m1", "tool_input": {"title": "Fix login timeout"}, "session_id": "s1", "ts": "2026-11-04T12:02:40Z"}
+{"hook_event_name": "Stop", "session_id": "s1", "ts": "2026-11-04T12:02:45Z"}

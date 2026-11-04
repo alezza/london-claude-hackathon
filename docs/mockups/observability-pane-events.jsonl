@@ -1,0 +1,15 @@
+{"id": "spawn-agent-x1", "t": "12:00:08", "agent": "main", "kind": "agent", "op": "spawn", "target": "Explore \u00b7 find the timeout", "status": "ok"}
+{"id": "r1", "t": "12:00:12", "agent": "agent-x1", "kind": "file", "op": "Read", "target": "src/api/login.ts", "status": "ok"}
+{"id": "e0", "t": "12:00:30", "agent": "main", "kind": "file", "op": "Edit", "target": "src/api/login.ts", "status": "ok"}
+{"id": "b0", "t": "12:00:40", "agent": "main", "kind": "process", "op": "Bash", "target": "npm test", "status": "error"}
+{"id": "e1", "t": "12:00:50", "agent": "main", "kind": "file", "op": "Edit", "target": "src/api/login.ts", "status": "ok"}
+{"id": "b1", "t": "12:01:00", "agent": "main", "kind": "process", "op": "Bash", "target": "npm test", "status": "error"}
+{"id": "e2", "t": "12:01:10", "agent": "main", "kind": "file", "op": "Edit", "target": "src/api/login.ts", "status": "ok"}
+{"id": "b2", "t": "12:01:20", "agent": "main", "kind": "process", "op": "Bash", "target": "npm test", "status": "error"}
+{"id": "e3", "t": "12:01:30", "agent": "main", "kind": "file", "op": "Edit", "target": "src/api/login.ts", "status": "ok"}
+{"id": "b3", "t": "12:01:40", "agent": "main", "kind": "process", "op": "Bash", "target": "npm test", "status": "error"}
+{"id": "e4", "t": "12:01:50", "agent": "main", "kind": "file", "op": "Edit", "target": "src/api/login.ts", "status": "ok"}
+{"id": "b4", "t": "12:02:00", "agent": "main", "kind": "process", "op": "Bash", "target": "npm test", "status": "ok"}
+{"id": "i1", "t": "12:02:20", "agent": "main", "kind": "process", "op": "Bash", "target": "npm install jwt-lite", "status": "ok"}
+{"id": "w9", "t": "12:02:30", "agent": "main", "kind": "file", "op": "Write", "target": "node_modules/jwt-lite/index.js", "status": "ok"}
+{"id": "c1", "t": "12:02:35", "agent": "main", "kind": "process", "op": "Bash", "target": "curl -H \"Authorization: token ghp_a1B2c3D4e5F6g7H8i9J0k1L2m3N4\" https://api.github.com/user", "status": "ok"}
